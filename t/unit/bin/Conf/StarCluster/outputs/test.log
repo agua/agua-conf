@@ -1,0 +1,10 @@
+2018-08-20 22:58:32    [DEBUG]   	Test::Conf::StarCluster::testGetKey	26	DOING setUpFile
+2018-08-20 22:58:32    [DEBUG]   	Test::Conf::StarCluster::testGetKey	29	DOING read
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::read	70	PASSED file: /mnt/repos/agua/flow/lib/Conf/t/unit/bin/Conf/StarCluster/outputs/syoung-microcluster.config
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::read	77	file after inputfile(): /mnt/repos/agua/flow/lib/Conf/t/unit/bin/Conf/StarCluster/outputs/syoung-microcluster.config
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::read	82	file : /mnt/repos/agua/flow/lib/Conf/t/unit/bin/Conf/StarCluster/outputs/syoung-microcluster.config
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::getKey	439	section_keypair not defined
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::getKey	440	section_keypair: global
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::getKey	441	name: global
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::getKey	442	value: 
+2018-08-20 22:58:32    [NOTE]   	Conf::Ini::getKey	443	key: ENABLE_EXPERIMENTAL
