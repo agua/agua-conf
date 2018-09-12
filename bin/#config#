@@ -1,0 +1,94 @@
+#!/usr/bin/perl -w
+
+my $out = qq{
+APPLICATION 	config
+
+PURPOSE
+
+	Directly 'get' and 'set' configuration file entries
+	
+USAGE
+
+$0 <--mode String> <--key String> [--value String]
+
+
+mode     :  Either 'setKey' or 'getKey'.
+key      :  A ':'-separated multi-level key (e.g., "core:INSTALLDIR").
+value    :  Required in mode 'setKey'. Value can be scalar or JSON.
+
+EXAMPLE
+
+# SET A KEY:VALUE PAIR:
+
+./config --mode setKey \
+--key "openstack:TENANTNAME \
+--value Portfolio
+
+# SET A KEY:VALUE DATA STRUCTURE USING JSON:
+
+./config --mode setKey \
+--key "core:UNIVERSE" \
+--value '{ "0.0.1" : { "INSTALLDIR": "/a/apps/dnaseq" } }'
+
+# CREATES THE FOLLOWING CONFIG FILE ENTRY:
+core:
+  UNIVERSE:
+    0.0.1:
+      INSTALLDIR: /a/apps/dnaseq
+
+};
+
+#### EXTERNAL MODULES
+use Term::ANSIColor qw(:constants);
+use Getopt::Long;
+use FindBin qw($Bin);
+
+#### USE LIBRARY
+use lib "$Bin/../..";   
+
+#### INTERNAL MODULES
+use Conf::Yaml;
+
+my $mode;
+my $key;
+my $value;
+my $log			=	2;
+my $printlog	=	2;
+my $logfile     =   "$Bin/../../../log/flow.log";
+my $help;
+GetOptions (
+    'mode=s'		=> \$mode,
+    'key=s'			=> \$key,
+    'value=s'		=> \$value,    
+    'log=i'     	=> \$log,
+    'printlog=i'    => \$printlog,
+    'help'          => \$help
+) or die "No options specified. Try '--help'\n";
+usage() if defined $help;
+
+print "Mode not supported: $mode (getKey|setKey)\n" if $mode !~ /^(getKey|setKey)$/;
+
+#### SET CONF FILE
+my $configfile  =   "$Bin/../../../conf/config.yml";
+my $conf = Conf::Yaml->new(
+    memory      =>  0,
+    inputfile   =>  $configfile,
+    backup      =>  1,
+    log			=>	$log,
+    printlog	=>	$printlog,
+    logfile     =>  $logfile
+);
+
+$conf->$mode( $key, $value ) if $mode eq "setKey";
+$conf->$mode( $key ) if $mode eq "getKey";
+
+
+exit 0;
+
+##############################################################
+
+sub usage {
+   print BOLD, BRIGHT_BLACK $out;
+   exit;
+}
+
