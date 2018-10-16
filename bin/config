@@ -49,7 +49,7 @@ use lib "$Bin/../..";
 #### INTERNAL MODULES
 use Conf::Yaml;
 
-my $mode;
+my $mode = shift @ARGV;
 my $key;
 my $value;
 my $log			=	2;
@@ -57,7 +57,6 @@ my $printlog	=	2;
 my $logfile     =   "$Bin/../../../log/flow.log";
 my $help;
 GetOptions (
-    'mode=s'		=> \$mode,
     'key=s'			=> \$key,
     'value=s'		=> \$value,    
     'log=i'     	=> \$log,
@@ -66,7 +65,8 @@ GetOptions (
 ) or die "No options specified. Try '--help'\n";
 usage() if defined $help;
 
-print "Mode not supported: $mode (getKey|setKey)\n" if $mode !~ /^(getKey|setKey)$/;
+print "mode: $mode\n";
+print "Mode not supported: $mode (get|set)\n" if $mode !~ /^(get|set)$/;
 
 #### SET CONF FILE
 my $configfile  =   "$Bin/../../../conf/config.yml";
@@ -74,13 +74,13 @@ my $conf = Conf::Yaml->new(
     memory      =>  0,
     inputfile   =>  $configfile,
     backup      =>  1,
-    log			=>	$log,
-    printlog	=>	$printlog,
+    log			    =>	$log,
+    printlog	  =>	$printlog,
     logfile     =>  $logfile
 );
 
-$conf->$mode( $key, $value ) if $mode eq "setKey";
-$conf->$mode( $key ) if $mode eq "getKey";
+$conf->setKey( $key, $value ) if $mode eq "set";
+$conf->getKey( $key ) if $mode eq "get";
 
 
 exit 0;
